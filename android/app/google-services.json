@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "288577221655",
+    "project_id": "breathalyzer-app-8c469",
+    "storage_bucket": "breathalyzer-app-8c469.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288577221655:android:37501f9ea7d176094a1852",
+        "android_client_info": {
+          "package_name": "com.suyash.breathalyzer_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "288577221655-nfh54fisvpmtsd70l7530h9bq2h0f711.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.suyash.breathalyzer_app",
+            "certificate_hash": "2f386746157d9aa43ac4515aa854aafc669dc615"
+          }
+        },
+        {
+          "client_id": "288577221655-iat4hlruojomjv57iqv40misb6bmfo2b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALAv6o1iqboH2Ndhn7j8E-IVHT9M7fQgI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "288577221655-iat4hlruojomjv57iqv40misb6bmfo2b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
