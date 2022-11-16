@@ -1,3 +1,4 @@
+import 'package:breathalyzer_app/controllers/input_controller.dart';
 import 'package:breathalyzer_app/repositories/login_repository.dart';
 import 'package:breathalyzer_app/screens/HomeScreen.dart';
 import 'package:breathalyzer_app/screens/InputScreen.dart';
@@ -70,7 +71,7 @@ class _MyAppState extends State<MyApp> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
   late LoginController _loginController;
   late HomeController _homeController;
-
+  late InputController _inputController;
 
 
 
@@ -79,6 +80,7 @@ class _MyAppState extends State<MyApp> {
 
     _loginController = LoginController(widget.loginRepository);
     _homeController = HomeController();
+    _inputController = InputController();
     super.initState();
   }
 
@@ -86,6 +88,7 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     _loginController.dispose();
     _homeController.dispose();
+    _inputController.dispose();
     super.dispose();
   }
 
@@ -101,6 +104,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             visualDensity: VisualDensity.adaptivePlatformDensity,
+            unselectedWidgetColor: Colors.white
           ),
           darkTheme: ThemeData.dark(),
           initialRoute: widget.initialRoute,
@@ -125,7 +129,12 @@ class _MyAppState extends State<MyApp> {
               return const SplashScreen();
             },
             inputScreen: (_){
-              return const InputScreen();
+              return MultiProvider(
+                providers: [
+                  ChangeNotifierProvider.value(value: _inputController),
+                ],
+                  child: const InputScreen()
+              );
             }
           }),
     );

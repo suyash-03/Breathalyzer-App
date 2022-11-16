@@ -46,6 +46,7 @@ dependencies:
   flutter_secure_storage: ^6.0.0
   fluttertoast: ^8.1.1
   syncfusion_flutter_sliders: ^20.3.56
+  neopop: ^1.0.2
 
 dev_dependencies:
   flutter_test:

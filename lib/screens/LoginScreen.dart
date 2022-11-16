@@ -1,3 +1,4 @@
+import 'package:breathalyzer_app/utils/assets.dart';
 import 'package:breathalyzer_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: ListView(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 50),
+                      padding: const EdgeInsets.only(top: 130),
                       child: Text(
                         "Breathalyzer App",
                         textAlign: TextAlign.center,
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 12,
                     ),
                     Text(
-                      "All your college needs in one app",
+                      "All your medical needs in one app",
                       textAlign: TextAlign.center,
                       style: w600.copyWith(
                           fontSize: 18, color: "#BCBCBC".fromHexToColor()),
@@ -51,6 +52,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 60,
                     ),
+
+                    SizedBox(
+                      width: 200,
+                      height: 200,
+                      child: Image.asset(PngAssets.loginImage),
+                    ),
+                    SizedBox(height: 50,),
                     Stack(
                       children: [
                         Visibility(
@@ -100,11 +108,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(
                       height: 30,
-                    ),
-                    Text(
-                      "Developed by SU Tech Team",
-                      textAlign: TextAlign.center,
-                      style: w500.copyWith(fontSize: 18),
                     ),
                   ],
                 ),
