@@ -1,7 +1,9 @@
 import 'package:breathalyzer_app/controllers/input_controller.dart';
+import 'package:breathalyzer_app/repositories/home_repository.dart';
 import 'package:breathalyzer_app/repositories/login_repository.dart';
 import 'package:breathalyzer_app/screens/HomeScreen.dart';
 import 'package:breathalyzer_app/screens/InputScreen.dart';
+import 'package:breathalyzer_app/screens/InputScreens/savingData.dart';
 import 'package:breathalyzer_app/screens/LoginScreen.dart';
 import 'package:breathalyzer_app/screens/SplashScreen.dart';
 import 'package:breathalyzer_app/utils/constants.dart';
@@ -32,6 +34,12 @@ void main() async{
     _customHttpClient,
     _googleSignIn,
   );
+
+  HomeRepository _homeRepository = HomeRepository(
+      _customHttpClient,
+      _secureStorage
+  );
+
   String? res = await _secureStorage.read(key: 'UUID');
   print(res);
   if (await _secureStorage.read(key: 'UUID') == null) {
@@ -39,6 +47,7 @@ void main() async{
     runApp(MyApp(
         initialRoute: loginScreen,
         loginRepository: _loginRepository,
+        homeRepository: _homeRepository,
         flutterSecureStorage: _secureStorage,));
   } else {
     //If logged in
@@ -46,6 +55,7 @@ void main() async{
       MyApp(
           initialRoute: splashScreen,
           loginRepository: _loginRepository,
+          homeRepository: _homeRepository,
           flutterSecureStorage: _secureStorage,),
     );
   }
@@ -54,11 +64,13 @@ void main() async{
 class MyApp extends StatefulWidget {
   final String initialRoute;
   final LoginRepository loginRepository;
+  final HomeRepository homeRepository;
   final FlutterSecureStorage flutterSecureStorage;
 
   MyApp(
       {required this.initialRoute,
         required this.loginRepository,
+        required this.homeRepository,
         required this.flutterSecureStorage,
       });
 
@@ -79,7 +91,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
 
     _loginController = LoginController(widget.loginRepository);
-    _homeController = HomeController();
+    _homeController = HomeController(widget.homeRepository);
     _inputController = InputController();
     super.initState();
   }
@@ -113,6 +125,7 @@ class _MyAppState extends State<MyApp> {
               return MultiProvider(
                 providers: [
                   ChangeNotifierProvider.value(value: _loginController),
+                  ChangeNotifierProvider.value(value: _homeController),
                 ],
                 child: const HomeScreen(),
               );
@@ -134,6 +147,14 @@ class _MyAppState extends State<MyApp> {
                   ChangeNotifierProvider.value(value: _inputController),
                 ],
                   child: const InputScreen()
+              );
+            },
+            savingScreen: (_){
+              return MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider.value(value: _inputController),
+                  ],
+                  child: const SavingDataScreen()
               );
             }
           }),

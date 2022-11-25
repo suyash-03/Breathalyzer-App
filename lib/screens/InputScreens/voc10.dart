@@ -16,6 +16,17 @@ class VOC10 extends StatefulWidget {
 
 class _VOC10State extends State<VOC10> {
   List<bool> selectionList = List.filled(19, false);
+
+  @override
+  void initState() {
+    if(widget.inputController.refillList[9] != -1){
+      int k = widget.inputController.refillList[9];
+      selectionList[k] = true;
+    }
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -360,6 +371,14 @@ class _VOC10State extends State<VOC10> {
             color: Colors.white,
             onTapUp: (){
               HapticFeedback.vibrate();
+              for(int i=0; i <selectionList.length; i++){
+                if(selectionList[i] == true){
+                  widget.inputController.vocChoiceList[9] = widget.inputController.vocDataList[i];
+                  widget.inputController.refillList[9] = i;
+                  print(widget.inputController.vocChoiceList[9]);
+                  break;
+                }
+              }
               widget.pageController.nextPage(duration: Duration(milliseconds: 200), curve: Curves.easeIn);
             },
             onTapDown: () => HapticFeedback.vibrate(),

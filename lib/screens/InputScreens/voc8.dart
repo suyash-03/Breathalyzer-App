@@ -17,6 +17,15 @@ class VOC8 extends StatefulWidget {
 class _VOC8State extends State<VOC8> {
   List<bool> selectionList = List.filled(19, false);
   @override
+  void initState() {
+    if(widget.inputController.refillList[7] != -1){
+      int k = widget.inputController.refillList[7];
+      selectionList[k] = true;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
@@ -360,6 +369,14 @@ class _VOC8State extends State<VOC8> {
             color: Colors.white,
             onTapUp: (){
               HapticFeedback.vibrate();
+              for(int i=0; i <selectionList.length; i++){
+                if(selectionList[i] == true){
+                  widget.inputController.vocChoiceList[7] = widget.inputController.vocDataList[i];
+                  widget.inputController.refillList[7] = i;
+                  print(widget.inputController.vocChoiceList[7]);
+                  break;
+                }
+              }
               widget.pageController.nextPage(duration: Duration(milliseconds: 200), curve: Curves.easeIn);
             },
             onTapDown: () => HapticFeedback.vibrate(),

@@ -1,5 +1,11 @@
+import 'package:breathalyzer_app/controllers/home_controller.dart';
 import 'package:breathalyzer_app/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../utils/status.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,11 +15,79 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void didChangeDependencies() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      final homeController = Provider.of<HomeController>(context,listen: false);
+      await homeController.getProfile();
+    });
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: BrandColor.drawerBackgroundColor,
+    return Consumer<HomeController>(
+      builder: (context,controller,child){
+        return Scaffold(
+          backgroundColor: BrandColor.drawerBackgroundColor,
+          body: controller.profileState == Status.LOADING  ? Container(
+            child: const Center(
+               child: SpinKitDualRing(color: Colors.white,),
+            ),
+          ) : controller.profileState == Status.LOADED ? controller.profileResult.fold(
+                  (l) => Center(),
+                  (r) => ListView(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20,20,20,20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.all(Radius.circular(50)),
+                                child: SizedBox(
+                                  width: 30,
+                                    height: 30,
+                                    child: Image.network(controller.profileModel.imageUrl))),
+                            Container(
+                              child: IconButton(onPressed: (){}, icon: const Icon(Icons.logout,color: Colors.white,)),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20,0,20,10),
+                        child: Row(
+                          children: [
+                            Text("Welcome ",style: GoogleFonts.poppins(fontSize: 20,color: Colors.white,),),
+                          Text(controller.profileModel.name,style: GoogleFonts.poppins(fontSize: 20,color: Colors.white,fontWeight: FontWeight.w800,),),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20,10,20,10),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 200,
+                          decoration: const BoxDecoration(
+                            color: BrandColor.cordScreenGreyText,
+                            borderRadius: BorderRadius.all(Radius.circular(20))
+                          ),
+                          child: Row(
+                            children: const [
 
+                            ],
+                          ),
+                        ),
+                      ),
+
+
+                    ],
+                  )): Center(child: Text("Some Error Occurred",style: GoogleFonts.poppins(color: Colors.white,fontSize: 24),),),
+
+        );
+      }
     );
   }
 }

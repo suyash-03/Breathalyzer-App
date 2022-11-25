@@ -1,3 +1,4 @@
+import 'package:breathalyzer_app/utils/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,16 @@ class VOC13 extends StatefulWidget {
 
 class _VOC13State extends State<VOC13> {
   List<bool> selectionList = List.filled(19, false);
+
+  @override
+  void initState() {
+    if(widget.inputController.refillList[12] != -1){
+      int k = widget.inputController.refillList[12];
+      selectionList[k] = true;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -360,7 +371,16 @@ class _VOC13State extends State<VOC13> {
             color: Colors.white,
             onTapUp: (){
               HapticFeedback.vibrate();
-              widget.pageController.nextPage(duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+              for(int i=0; i <selectionList.length; i++){
+                if(selectionList[i] == true){
+                  widget.inputController.vocChoiceList[12] = widget.inputController.vocDataList[i];
+                  widget.inputController.refillList[12] = i;
+                  print(widget.inputController.vocChoiceList[12]);
+                  break;
+                }
+              }
+              print(widget.inputController.vocChoiceList.toString());
+              Navigator.pushNamed(context, savingScreen);
             },
             onTapDown: () => HapticFeedback.vibrate(),
             border: Border.all(
