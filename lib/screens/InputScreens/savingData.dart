@@ -20,8 +20,9 @@ class _SavingDataScreenState extends State<SavingDataScreen> {
 
   void saveData(Map<String,double> vocData) async{
     final db = FirebaseFirestore.instance;
-    await db.collection("users").add(vocData).then((DocumentReference doc) =>
-        print('DocumentSnapshot added with ID: ${doc.id}'));
+    final QuerySnapshot qSnap = await db.collection('users').get();
+    final int documentsLength = qSnap.size;
+    await db.collection("users").doc('vocData${documentsLength+1}').set(vocData);
     FlutterSecureStorage flutterSecureStorage = new FlutterSecureStorage();
     flutterSecureStorage.write(key: "data", value: "Y");
 

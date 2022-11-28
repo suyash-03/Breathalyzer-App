@@ -30,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           timer.cancel();
         });
         FlutterSecureStorage flutterSecureStorage = new FlutterSecureStorage();
+
         if(await flutterSecureStorage.read(key: "data") == "Y"){
           Navigator.pushReplacementNamed(context, homeScreen);
         }else{
