@@ -48,6 +48,7 @@ dependencies:
   syncfusion_flutter_sliders: ^20.3.56
   neopop: ^1.0.2
   cloud_firestore: ^4.1.0
+  syncfusion_flutter_charts: ^20.3.59
 
 dev_dependencies:
   flutter_test:

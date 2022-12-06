@@ -34,5 +34,19 @@ class HomeController with ChangeNotifier{
     });
   }
 
+  List<double> voc1History = [];
+  List<double> voc2History = [];
+  List<double> voc3History = [];
+  List<double> voc4History = [];
+  List<double> voc5History = [];
+  List<double> voc6History = [];
+  List<double> voc7History = [];
+  List<double> voc8History = [];
+  List<double> voc9History = [];
+  List<double> voc10History = [];
+  List<double> voc11History = [];
+  List<double> voc12History = [];
+  List<double> voc13History = [];
+
 
 }

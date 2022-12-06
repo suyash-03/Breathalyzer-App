@@ -1,6 +1,7 @@
 import 'package:breathalyzer_app/controllers/input_controller.dart';
 import 'package:breathalyzer_app/utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -19,11 +20,20 @@ class SavingDataScreen extends StatefulWidget {
 class _SavingDataScreenState extends State<SavingDataScreen> {
 
   void saveData(Map<String,double> vocData) async{
+
     final db = FirebaseFirestore.instance;
-    final QuerySnapshot qSnap = await db.collection('users').get();
+
+
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    final String suyashFirebaseId = "srRfZu8CRfVEfL6uyPa3NoeV08c2";
+    final QuerySnapshot qSnap = await db.collection('users').doc(suyashFirebaseId).collection("userData").get();
     final int documentsLength = qSnap.size;
-    await db.collection("users").doc('vocData${documentsLength+1}').set(vocData);
-    FlutterSecureStorage flutterSecureStorage = new FlutterSecureStorage();
+    await db.collection("users").doc(uid).collection("userData").doc("vocData${documentsLength+1}").set(vocData);
+
+    FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
+    flutterSecureStorage.delete(key: "data");
     flutterSecureStorage.write(key: "data", value: "Y");
 
     Navigator.pushReplacementNamed(context, homeScreen);

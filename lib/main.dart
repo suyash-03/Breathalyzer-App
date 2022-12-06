@@ -1,6 +1,7 @@
 import 'package:breathalyzer_app/controllers/input_controller.dart';
 import 'package:breathalyzer_app/repositories/home_repository.dart';
 import 'package:breathalyzer_app/repositories/login_repository.dart';
+import 'package:breathalyzer_app/screens/History.dart';
 import 'package:breathalyzer_app/screens/HomeScreen.dart';
 import 'package:breathalyzer_app/screens/InputScreen.dart';
 import 'package:breathalyzer_app/screens/InputScreens/savingData.dart';
@@ -156,7 +157,16 @@ class _MyAppState extends State<MyApp> {
                   ],
                   child: const SavingDataScreen()
               );
-            }
+            },
+            historyScreen: (_){
+              return MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider.value(value: _homeController),
+                  ],
+                  child: const HistoryScreen()
+              );
+            },
+
           }),
     );
   }

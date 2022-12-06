@@ -1,7 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:breathalyzer_app/controllers/home_controller.dart';
 import 'package:breathalyzer_app/utils/colors.dart';
+import 'package:breathalyzer_app/utils/constants.dart';
 import 'package:breathalyzer_app/utils/widgets/homeScreenButton.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
       final homeController = Provider.of<HomeController>(context,listen: false);
       await homeController.getProfile();
+      final FirebaseFirestore db = FirebaseFirestore.instance;
+
 
     });
     super.didChangeDependencies();
@@ -105,10 +109,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      const HomeScreenButton(text: "History", icon: Icons.bar_chart),
-                      SizedBox(height: 20,),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pushNamed(context, historyScreen);
+                        },
+                          child: const HomeScreenButton(text: "History", icon: Icons.bar_chart)),
+                      const SizedBox(height: 20,),
                       const HomeScreenButton(text: "View Hospitals", icon: Icons.local_hospital),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                       const HomeScreenButton(text: "Recommendations", icon: Icons.receipt),
 
 
