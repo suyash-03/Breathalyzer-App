@@ -5,6 +5,7 @@ import 'package:breathalyzer_app/utils/constants.dart';
 import 'package:breathalyzer_app/utils/widgets/homeScreenButton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -21,14 +22,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   String currentDisease = "";
+  FlutterSecureStorage flutterSecureStorage = const FlutterSecureStorage();
   @override
   void didChangeDependencies() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
       final homeController = Provider.of<HomeController>(context,listen: false);
       await homeController.getProfile();
-      final FirebaseFirestore db = FirebaseFirestore.instance;
-
-
+      homeController.getCurrentDiseaseData();
     });
     super.didChangeDependencies();
   }
@@ -59,7 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 30,
                                     child: Image.network(controller.profileModel.imageUrl))),
                             Container(
-                              child: IconButton(onPressed: (){}, icon: const Icon(Icons.logout,color: Colors.white,)),
+                              child: IconButton(onPressed: () async{
+                                flutterSecureStorage.deleteAll();
+                                Navigator.pushNamedAndRemoveUntil(context, loginScreen, (route) => false);
+                              }, icon: const Icon(Icons.logout,color: Colors.white,)),
                             )
                           ],
                         ),
@@ -103,7 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(15.0,0,20,50),
                                 child: Text("You have \n""symptoms of", style: GoogleFonts.poppins(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
-                              )
+                              ),
+
 
                             ],
                           ),

@@ -2,6 +2,7 @@ import 'package:breathalyzer_app/utils/assets.dart';
 import 'package:breathalyzer_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -122,9 +123,16 @@ class _LoginScreenState extends State<LoginScreen> {
               }, (account) {
                 SchedulerBinding.instance.addPostFrameCallback(
                       (_) async {
+
                     Fluttertoast.showToast(
                         msg: 'Welcome ${account.displayName}');
-                    Navigator.of(context).pushReplacementNamed(homeScreen);
+
+                    FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
+                    if(await flutterSecureStorage.read(key: "data") == null){
+                      Navigator.of(context).pushReplacementNamed(inputScreen);
+                    }else{
+                      Navigator.of(context).pushReplacementNamed(homeScreen);
+                    }
                   },
                 );
                 return Container();

@@ -27,8 +27,7 @@ class _SavingDataScreenState extends State<SavingDataScreen> {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
     final uid = user?.uid;
-    final String suyashFirebaseId = "srRfZu8CRfVEfL6uyPa3NoeV08c2";
-    final QuerySnapshot qSnap = await db.collection('users').doc(suyashFirebaseId).collection("userData").get();
+    final QuerySnapshot qSnap = await db.collection('users').doc(uid).collection("userData").get();
     final int documentsLength = qSnap.size;
     await db.collection("users").doc(uid).collection("userData").doc("vocData${documentsLength+1}").set(vocData);
 
