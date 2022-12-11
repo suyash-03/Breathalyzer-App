@@ -37,13 +37,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
       backgroundColor: BrandColor.drawerBackgroundColor,
       body: Consumer<HomeController>(
         builder: (context,controller,child){
-          return ListView(
+          return controller.vocDataStatus == Status.LOADING  ? SpinKitDualRing(color: Colors.white) : ListView(
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(20,50,0,20),
                 child: Text("History of VOC Input",style: GoogleFonts.poppins(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold),),
               ),
-              controller.vocDataStatus == Status.LOADING  ? SpinKitDualRing(color: Colors.white) :
               FadeInUp(
                 duration: const Duration(milliseconds: 50),
                 child: Center(
