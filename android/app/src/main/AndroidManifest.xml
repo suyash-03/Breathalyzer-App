@@ -1,10 +1,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.suyash.breathalyzer_app">
     <uses-permission android:name="android.permission.INTERNET" />
+    <queries>
+        <!-- If your app checks for SMS support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="sms" />
+        </intent>
+        <!-- If your app checks for call support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
+        </intent>
+    </queries>
    <application
         android:label="breathalyzer_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+       <meta-data
+           android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyADWOtcT7txS1q3O8hheHZfJRqf5n4jcFs"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

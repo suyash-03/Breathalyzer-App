@@ -15,7 +15,7 @@ class VOC7 extends StatefulWidget {
 }
 
 class _VOC7State extends State<VOC7> {
-  List<bool> selectionList = List.filled(19, false);
+  List<bool> selectionList = List.filled(20, false);
 
   @override
   void initState() {
@@ -358,6 +358,22 @@ class _VOC7State extends State<VOC7> {
                       selectionList[i] = false;
                     }
                     selectionList[18] = newValue!;
+                  });
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+              ),
+            ),
+            Flexible(
+              child: CheckboxListTile(
+                title: Text(widget.inputController.vocDataList[19].toString(),style: GoogleFonts.poppins(color: Colors.white,fontSize: 15),),
+                checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                value: selectionList[19],
+                onChanged: (newValue) {
+                  setState(() {
+                    for(int i=0;i<selectionList.length; i++){
+                      selectionList[i] = false;
+                    }
+                    selectionList[19] = newValue!;
                   });
                 },
                 controlAffinity: ListTileControlAffinity.leading,

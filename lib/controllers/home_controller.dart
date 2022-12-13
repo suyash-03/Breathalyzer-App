@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:breathalyzer_app/utils/functions.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../models/map_marker_model.dart';
+
 
 class HomeController with ChangeNotifier{
   final HomeRepository _homeRepository;
@@ -20,6 +22,7 @@ class HomeController with ChangeNotifier{
 
   Status profileState = Status.INTIAL;
   Status vocDataStatus = Status.LOADING;
+  Status currentDiseaseStatus = Status.LOADING;
 
   Future getProfile() async {
     profileState = Status.LOADING;
@@ -41,6 +44,7 @@ class HomeController with ChangeNotifier{
   }
 
   void getCurrentDiseaseData() async{
+
     final db = FirebaseFirestore.instance;
     FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
     String? uid = await flutterSecureStorage.read(key: "UUID");
@@ -66,16 +70,77 @@ class HomeController with ChangeNotifier{
 
 
 
-    // [2,1.95,1.71,1.65,1.54,1,0.7,0.65,0.5, 0.35,0.2,0.17,0.15,0.1,0.05,0.03,0.01,0.005,0.000001];
-    if(voc1Level == 1.54 && voc2Level == 0.35 && voc3Level == 0.01 && voc5Level == 0.5 && voc7Level == 0.01
-    && voc8Level == 0.17 && voc9Level == 0.2 && voc10Level == 0.2 && voc11Level == 0.35 && voc12Level == 1.65
+    // [2,1.95,1.71,1.65,1.54,1,0.7,0.65,0.5, 0.35,0.2,0.17,0.15,0.1,0.05,0.03,0.01,0.005,0.000001,0.0];
+    if(voc1Level == 1 && voc2Level == 0.35 && voc3Level == 0.01 && voc4Level == 0.0 && voc5Level == 0.5 && voc6Level == 0.0 && voc7Level == 0.01
+    && voc8Level == 0.35 && voc9Level == 0.35 && voc10Level == 0.35 && voc11Level == 0.5 && voc12Level == 1.65
     && voc13Level == 0.1){
       currentDisease = "Lung Cancer";
-    }else if(voc1Level == 1.54){
+    }
+    else if(voc1Level == 1 && voc2Level == 0.2 && voc3Level == 1.65 && voc4Level == 0.03 && voc5Level == 0.2 && voc6Level == 0.5 
+    && voc7Level == 0.03  && voc8Level == 0.35 && voc9Level == 0.35 && voc10Level == 0.1 && voc11Level == 0.5 && voc12Level == 0.65
+    && voc13Level == 0.05){currentDisease = "Colorectal Cancer";}
 
+    else if(voc1Level == 1 && voc2Level == 0.01 && voc3Level == 1 && voc4Level == 0.2 && voc5Level == 0.5 && voc6Level == 0.5 
+    && voc7Level == 0.01  && voc8Level == 0.35 && voc9Level == 0.35 && voc10Level == 0.35 && voc11Level == 1.54 && voc12Level == 1.54
+    && voc13Level == 0.1){currentDisease = "Ovarian Cancer";}
+
+    else if(voc1Level == 1 && voc2Level == 0.01 && voc3Level == 0.2 && voc4Level == 0.05 && voc5Level == 1 && voc6Level == 0.5 
+    && voc7Level == 0.01  && voc8Level == 0.5 && voc9Level == 0.35 && voc10Level == 0.35 && voc11Level == 1 && voc12Level == 0.0
+    && voc13Level == 0.1){currentDisease = "Bladder Cancer";}
+
+    else if(voc1Level == 1.54 && voc2Level == 0.05 && voc3Level == 1 && voc4Level == 0.05 && voc5Level == 0.5 && voc6Level == 0.35 
+    && voc7Level == 0.05  && voc8Level == 0.2 && voc9Level == 0.35 && voc10Level == 0.35 && voc11Level == 0.5 && voc12Level == 1
+    && voc13Level == 0.05){currentDisease = "Prostate Cancer";}
+
+    else if(voc1Level == 1 && voc2Level == 0.05 && voc3Level == 0.7 && voc4Level == 0.05 && voc5Level == 0.35 && voc6Level == 0.35 
+    && voc7Level == 0.05  && voc8Level == 0.05 && voc9Level == 0.35 && voc10Level == 0.35 && voc11Level == 0.35 && voc12Level == 0.65
+    && voc13Level == 0.05){currentDisease = "Kidney Cancer";}
+
+    else if(voc1Level == 1 && voc2Level == 0.05 && voc3Level == 0.65 && voc4Level == 0.03 && voc5Level == 0.65 && voc6Level == 0.35 
+    && voc7Level == 0.05  && voc8Level == 0.35 && voc9Level == 0.35 && voc10Level == 0.35 && voc11Level == 0.7 && voc12Level == 0.65
+    && voc13Level == 0.05){currentDisease = "Gastric Cancer";}
+
+    else if(voc1Level == 1.54 && voc2Level == 0.2 && voc3Level == 1.54 && voc4Level == 0.05 && voc5Level == 0.7 && voc6Level == 0.65 
+    && voc7Level == 0.05  && voc8Level == 0.35 && voc9Level == 0.35 && voc10Level == 0.1 && voc11Level == 1 && voc12Level == 1
+    && voc13Level == 0.1){currentDisease = "Crohn's Disease";}
+
+    else if(voc1Level == 1 && voc2Level == 0.01 && voc3Level == 0.03 && voc4Level == 0.05 && voc5Level == 0.01 && voc6Level == 0.35 
+    && voc7Level == 0.01  && voc8Level == 0.005 && voc9Level == 0.35 && voc10Level == 0.03 && voc11Level == 0.35 && voc12Level == 0.35
+    && voc13Level == 0.03){currentDisease = "Ulcerative Colitis";}
+
+    else if(voc1Level == 0.7 && voc2Level == 0.05 && voc3Level == 0.35 && voc4Level == 0.03 && voc5Level == 0.01 && voc6Level == 0.35 
+    && voc7Level == 0.01  && voc8Level == 0.05 && voc9Level == 0.35 && voc10Level == 0.05 && voc11Level == 0.35 && voc12Level == 0.35
+    && voc13Level == 0.01){currentDisease = "Irritable bowel disease";}
+
+    else if(voc1Level == 1 && voc2Level == 0.05 && voc3Level == 0.0 && voc4Level == 0.01 && voc5Level == 0.0 && voc6Level == 0.35
+    && voc7Level == 0.03  && voc8Level == 0.35 && voc9Level == 0.35 && voc10Level == 0.03 && voc11Level == 1 && voc12Level == 0.35
+    && voc13Level == 0.05){currentDisease = "Idiopathic Parkinson";}
+
+    else if(voc1Level == 1 && voc2Level == 0.15 && voc3Level == 1.54 && voc4Level == 0.01 && voc5Level == 1 && voc6Level == 0.5 
+    && voc7Level == 0.01  && voc8Level == 0.2 && voc9Level == 0.5 && voc10Level == 0.35 && voc11Level == 1.54 && voc12Level == 1.54
+    && voc13Level == 0.05){currentDisease = "Atypical Parkinsonism";}
+
+    else if(voc1Level == 1 && voc2Level == 0.03 && voc3Level == 1.65 && voc4Level == 0.01 && voc5Level == 0.5 && voc6Level == 0.5 
+    && voc7Level == 0.05  && voc8Level == 0.2 && voc9Level == 0.5 && voc10Level == 0.35 && voc11Level == 1.54 && voc12Level == 1.54
+    && voc13Level == 0.05){currentDisease = "Head and neck Cancer";}
+
+    else if(voc1Level == 1 && voc2Level == 0.01 && voc3Level == 1.54 && voc4Level == 0.05 && voc5Level == 0.35 && voc6Level == 1.65 
+    && voc7Level == 0.01  && voc8Level == 0.35 && voc9Level == 0.35 && voc10Level == 0.35 && voc11Level == 1 && voc12Level == 0.5
+    && voc13Level == 0.05){currentDisease = "Multiple Sclerosis";}
+
+    else if(voc1Level == 1 && voc2Level == 0.2 && voc3Level == 1 && voc4Level == 0.05 && voc5Level == 0.0 && voc6Level == 0.35
+    && voc7Level == 0.01  && voc8Level == 0.01 && voc9Level == 0.35 && voc10Level == 0.1 && voc11Level == 0.35 && voc12Level == 1
+    && voc13Level == 0.05){currentDisease = "Pulmonary Hypertension";}
+
+    else if(voc1Level == 1 && voc2Level == 0.03 && voc3Level == 0.35 && voc4Level == 0.05 && voc5Level == 0.0 && voc6Level == 0.35
+    && voc7Level == 0.01  && voc8Level == 0.01 && voc9Level == 0.35 && voc10Level == 0.05 && voc11Level == 0.35 && voc12Level == 0.65
+    && voc13Level == 0.01){currentDisease = "Pre Eclampsia Toxemia";}
+    else{
+      currentDisease = "No Disease";
     }
 
-
+    currentDiseaseStatus = Status.LOADED;
+    notifyListeners();
 
   }
 
@@ -136,6 +201,35 @@ class HomeController with ChangeNotifier{
       print(voc1History[i]);
     }
 
+    notifyListeners();
+  }
+
+  late Either<Failure, List<MapMarkerModel>> mapMarkerResponse;
+  late List<MapMarkerModel> mapMarkerList;
+  Status mapMarkerStatus = Status.INTIAL;
+  Future getMapMarkers() async {
+    mapMarkerStatus = Status.LOADING;
+    notifyListeners();
+    await Task(() => _homeRepository.getMapMarkers())
+        .attempt()
+        .mapLeftToFailure()
+        .run()
+        .then((result) {
+      mapMarkerResponse = result as Either<Failure, List<MapMarkerModel>>;
+    });
+    mapMarkerStatus = Status.LOADED;
+    notifyListeners();
+    mapMarkerResponse.fold((l) => mapMarkerStatus = Status.ERROR, (r) {
+      mapMarkerList = r;
+      return mapMarkerStatus = Status.LOADED;
+    });
+  }
+
+  bool _currentLocationDetermined = false;
+
+  bool get currentLocationDetermined => _currentLocationDetermined;
+  set currentLocationDetermined(bool currentLocationDetermined){
+    _currentLocationDetermined = currentLocationDetermined;
     notifyListeners();
   }
 

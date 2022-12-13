@@ -80,12 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.fromLTRB(20,10,20,50),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: 200,
+                          height: 150,
                           decoration: const BoxDecoration(
                             color: BrandColor.cordScreenGreyText,
                             borderRadius: BorderRadius.all(Radius.circular(20))
                           ),
-                          child: Row(
+                          child: controller.currentDiseaseStatus == Status.LOADING ? const Center(
+                            child: SpinKitDualRing(color: Colors.white,),
+                          ) : Row(
                             children:  [
                               Container(
                                 height: 200,
@@ -93,36 +95,59 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Container(
-                                      height: 200,
+                                      height: 150,
                                       width: 20,
                                       decoration: const BoxDecoration(
                                           color: BrandColor.checkoutBtnDark
                                       ),
-
                                     ),
                                   ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(15.0,0,20,50),
-                                child: Text("You have \n""symptoms of", style: GoogleFonts.poppins(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
+                                padding: const EdgeInsets.fromLTRB(15.0,35,20,40),
+                                child: Text("You have \n""symptoms of \n${controller.currentDisease}", style: GoogleFonts.poppins(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
                               ),
 
-
+                              const SizedBox(width: 50,),
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.pushNamed(context, inputScreen);
+                                },
+                                child: Container(
+                                  width: 100,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    color: BrandColor.categoriesBtnTextcolor,
+                                  ),
+                                  child: Center(
+                                    child: Text("Enter Latest Data",textAlign: TextAlign.center,style: GoogleFonts.poppins(color: Colors.white,fontSize: 12),),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         ),
                       ),
+
+                      SizedBox(height: 60,),
                       GestureDetector(
                         onTap: (){
                           Navigator.pushNamed(context, historyScreen);
                         },
                           child: const HomeScreenButton(text: "History", icon: Icons.bar_chart)),
                       const SizedBox(height: 20,),
-                      const HomeScreenButton(text: "View Hospitals", icon: Icons.local_hospital),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pushNamed(context, viewHospitalsScreen);
+                        },
+                          child: const HomeScreenButton(text: "View Hospitals", icon: Icons.local_hospital)),
                       const SizedBox(height: 20,),
-                      const HomeScreenButton(text: "Recommendations", icon: Icons.receipt),
-
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pushNamed(context, dietScreen);
+                        },
+                          child: const HomeScreenButton(text: "Diet Recommendations", icon: Icons.receipt)),
 
                     ],
                   )): Center(child: Text("Some Error Occurred",style: GoogleFonts.poppins(color: Colors.white,fontSize: 24),),),
