@@ -7,6 +7,7 @@ import 'package:breathalyzer_app/screens/HomeScreen.dart';
 import 'package:breathalyzer_app/screens/InputScreen.dart';
 import 'package:breathalyzer_app/screens/InputScreens/savingData.dart';
 import 'package:breathalyzer_app/screens/LoginScreen.dart';
+import 'package:breathalyzer_app/screens/ShareDetails.dart';
 import 'package:breathalyzer_app/screens/SplashScreen.dart';
 import 'package:breathalyzer_app/screens/ViewHospitals.dart';
 import 'package:breathalyzer_app/utils/constants.dart';
@@ -184,6 +185,15 @@ class _MyAppState extends State<MyApp> {
                   child: const DietScreen()
               );
             },
+            shareScreen: (_){
+              return MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider.value(value: _homeController),
+                  ],
+                  child: const ShareDetails()
+              );
+            },
+
 
 
 

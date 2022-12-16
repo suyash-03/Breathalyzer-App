@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:breathalyzer_app/models/profile_model.dart';
 import 'package:breathalyzer_app/repositories/home_repository.dart';
 import 'package:breathalyzer_app/utils/failure.dart';
@@ -16,9 +18,12 @@ class HomeController with ChangeNotifier{
 
   late Either<Failure,ProfileModel> profileResult;
   late String currentDisease = "";
+  late String patientSummary = "";
 
   HomeController(this._homeRepository);
   late ProfileModel profileModel;
+  List<String> topVOCData = [];
+
 
   Status profileState = Status.INTIAL;
   Status vocDataStatus = Status.LOADING;
@@ -52,7 +57,6 @@ class HomeController with ChangeNotifier{
     final int documentsLength = qSnap.size;
 
     DocumentSnapshot snapshot =  await db.collection("users").doc(uid).collection("userData").doc("vocData$documentsLength").get();
-    print(snapshot.data().toString());
 
     double voc1Level = snapshot["voc1"];
     double voc2Level = snapshot["voc2"];
@@ -68,6 +72,20 @@ class HomeController with ChangeNotifier{
     double voc12Level = snapshot["voc12"];
     double voc13Level = snapshot["voc13"];
 
+
+
+    Map map = {voc1Level: 'voc1', voc2Level: 'voc2', voc3Level: 'voc3', voc4Level: 'voc4', voc5Level: 'voc4',
+               voc6Level: 'voc6', voc7Level: 'voc7', voc8Level: 'voc8', voc9Level: 'voc9', voc10Level: 'voc10',
+                voc11Level: 'voc11', voc12Level: 'voc12', voc13Level: 'voc13'};
+
+    var vocDataMap = Map.fromEntries(
+        map.entries.toList()..sort((e1, e2) => e1.value.compareTo(e2.value)));
+
+    topVOCData.clear();
+    vocDataMap.forEach((k, v){
+      topVOCData.add("$k ppm - " + v);
+    });
+    print(topVOCData.toString());
 
 
     // [2,1.95,1.71,1.65,1.54,1,0.7,0.65,0.5, 0.35,0.2,0.17,0.15,0.1,0.05,0.03,0.01,0.005,0.000001,0.0];
@@ -139,6 +157,9 @@ class HomeController with ChangeNotifier{
       currentDisease = "No Disease";
     }
 
+    patientSummary = "voc1: $voc1Level\nvoc2: $voc2Level\nvoc3: $voc3Level\nvoc4: $voc4Level\n"
+        "voc5: $voc5Level\nvoc6: $voc6Level\nvoc7: $voc7Level\nvoc8: $voc8Level\n"
+        "voc9: $voc9Level\nvoc10: $voc10Level\nvoc11: $voc11Level\nvoc12: $voc12Level\nvoc13: $voc13Level\n Symptoms: $currentDisease";
     currentDiseaseStatus = Status.LOADED;
     notifyListeners();
 
@@ -195,12 +216,6 @@ class HomeController with ChangeNotifier{
     }
 
     vocDataStatus = Status.LOADED;
-
-
-    for(int i=0; i<voc1History.length; i++){
-      print(voc1History[i]);
-    }
-
     notifyListeners();
   }
 

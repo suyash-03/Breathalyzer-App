@@ -77,10 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(20,10,20,50),
+                        padding: const EdgeInsets.fromLTRB(20,10,20,20),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: 150,
+                          height: 200,
                           decoration: const BoxDecoration(
                             color: BrandColor.cordScreenGreyText,
                             borderRadius: BorderRadius.all(Radius.circular(20))
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Container(
-                                      height: 150,
+                                      height: 200,
                                       width: 20,
                                       decoration: const BoxDecoration(
                                           color: BrandColor.checkoutBtnDark
@@ -119,6 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   height: 50,
                                   decoration: BoxDecoration(
                                     color: BrandColor.categoriesBtnTextcolor,
+
                                   ),
                                   child: Center(
                                     child: Text("Enter Latest Data",textAlign: TextAlign.center,style: GoogleFonts.poppins(color: Colors.white,fontSize: 12),),
@@ -129,7 +130,33 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(25.0,5,0,5),
+                        child: Text("Highest VOC Levels", style: GoogleFonts.poppins(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w500),),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20,5,20,0),
+                        child: Container(width: MediaQuery.of(context).size.width,height: 60,
+                          decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          color: BrandColor.cordScreenGreyText,
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(10,15,10,10),
+                              child: controller.currentDiseaseStatus == Status.LOADING ? SpinKitPulse(color: Colors.white) : ListView.builder(
+                                itemCount: 3,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context,index){
+                                  return Text("${index + 1}) ${controller.topVOCData[index]}  ",style: GoogleFonts.poppins(color: Colors.white,fontSize: 15),);
+                                },
+                                ),
+                            ),
+                          ),
 
+                        ),
+                      ),
                       SizedBox(height: 60,),
                       GestureDetector(
                         onTap: (){
@@ -148,6 +175,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.pushNamed(context, dietScreen);
                         },
                           child: const HomeScreenButton(text: "Diet Recommendations", icon: Icons.receipt)),
+                      const SizedBox(height: 20,),
+                      GestureDetector(
+                          onTap: (){
+                            Navigator.pushNamed(context, shareScreen);
+                          },
+                          child: const HomeScreenButton(text: "Share Details", icon: Icons.share)),
+                      SizedBox(height: 50,),
 
                     ],
                   )): Center(child: Text("Some Error Occurred",style: GoogleFonts.poppins(color: Colors.white,fontSize: 24),),),

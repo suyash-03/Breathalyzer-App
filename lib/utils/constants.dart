@@ -11,6 +11,7 @@ const String historyScreen = '/history';
 const String viewHospitalsScreen = '/viewHospitals';
 const String dietScreen = '/dietScreen';
 const String exercisesScreen = '/exercisesScreen';
+const String shareScreen = '/shareScreen';
 
 String miscUrl = "https://su-bitspilani.org/su/miscellaneous/";
 
